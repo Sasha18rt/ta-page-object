@@ -17,6 +17,7 @@ import java.lang.reflect.Constructor;
 public abstract class TopPart {
     public static final String TAG_ATTRIBUTE_VALUE = "value";
     //public static final String TAG_ATTRIBUTE_SRC = "src";
+    public static final String TAG_ATTRIBUTE_HREF = "href";
     //
     public static final String OPTION_NOT_FOUND_MESSAGE = "Option %s not found in %s";
     protected final String OPTION_NULL_MESSAGE = "Dropdown is null";

@@ -20,7 +20,9 @@ public abstract class ChallengePage extends TopSearchPart {
 
     // Page Object
 
-    // TODO
+    public WebElement getBannerLabel() {return bannerLabel;}
+    public String getBannerLabelText() {return bannerLabel.getText();}
+
 
     // Functional
 

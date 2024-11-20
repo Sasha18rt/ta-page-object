@@ -1,15 +1,13 @@
 package com.softserve.edu.teachua.tests;
 
-import com.softserve.edu.teachua.data.Challengies;
-import com.softserve.edu.teachua.data.Cities;
-import com.softserve.edu.teachua.data.ClubContents;
-import com.softserve.edu.teachua.data.CommentContents;
+import com.softserve.edu.teachua.data.*;
 import com.softserve.edu.teachua.pages.challenge.ChallengeTeachPage;
 import com.softserve.edu.teachua.pages.challenge.YoutubeFrame;
 import com.softserve.edu.teachua.pages.club.AdvancedClubPage;
 import com.softserve.edu.teachua.pages.club.ClubComponent;
 import com.softserve.edu.teachua.pages.club.ClubDetailsPage;
 import com.softserve.edu.teachua.pages.club.ClubPage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -53,18 +51,21 @@ public class SomeTest extends TestRunner {
 
     private static Stream<Arguments> challengeTeachProvider() {
         return Stream.of(
-                Arguments.of(Challengies.TO_LEARN_CHALLENGE)
+                Arguments.of(Challengies.TO_LEARN_CHALLENGE, UrlContents.WEBINAR_IFRAME),
+                Arguments.of(Challengies.TO_LEARN_CHALLENGE, UrlContents.WEBINAR2_IFRAME)
         );
     }
 
-    @ParameterizedTest(name = "{index} => challengeName={0}")
+
+    @ParameterizedTest(name = "{index} => challengeName = {0}")
     @MethodSource("challengeTeachProvider")
-    public void checkChallenge(Challengies challengeName) {
+    public void checkChallenge(Challengies challengeName, UrlContents urlContents) {
         YoutubeFrame youtubeFrame = loadApplication()
                 .gotoChallengePage(challengeName, ChallengeTeachPage.class)
-                .gotoYoutubeFrame();
-        //
-        // TODO Check Youtube Frame
+                .gotoYoutubeFrameBySrc(urlContents.getSearchVideo())
+                .playVideoContent();
+
+        Assertions.assertTrue(youtubeFrame.getYoutubeLinkText().contains(urlContents.getSearchVideo()));
     }
 
     private static Stream<Arguments> cityProvider() {

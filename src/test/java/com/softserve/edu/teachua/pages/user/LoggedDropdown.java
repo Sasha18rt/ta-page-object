@@ -21,11 +21,11 @@ public class LoggedDropdown {
 
     // TODO
     private void initElements() {
-        addClubLink = driver.findElement(By.cssSelector("//TODO"));
-        addCenterLink = driver.findElement(By.cssSelector("//TODO"));
-        searchCertificatesLink = driver.findElement(By.cssSelector("//TODO"));
-        personalProfileLink = driver.findElement(By.cssSelector("//TODO"));
-        signOutLink = driver.findElement(By.cssSelector("//TODO"));
+        addClubLink = driver.findElement(By.cssSelector("li[data-menu-id*='club']"));
+        addCenterLink = driver.findElement(By.cssSelector("li[data-menu-id*='centre']"));
+        searchCertificatesLink = driver.findElement(By.cssSelector("li[data-menu-id*='certificates']"));
+        personalProfileLink = driver.findElement(By.cssSelector("li[data-menu-id*='profile']"));
+        signOutLink = driver.findElement(By.cssSelector("li[data-menu-id*='logout']"));
     }
 
     // Page Object

@@ -1,9 +1,15 @@
 package com.softserve.edu.teachua.pages.club;
 
 import com.softserve.edu.teachua.pages.top.TopPart;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class ClubDetailsPage extends TopPart {
+
+
+    private WebElement createCommentButton;
+    private WebElement nameField;
 
     // TODO
     private CommentsContainer commentsContainer;
@@ -14,12 +20,15 @@ public class ClubDetailsPage extends TopPart {
     }
 
     private void initElements() {
-        // init elements
+
+        nameField = driver.findElement(By.xpath("//span[@class='club-name']"));
+        createCommentButton = driver.findElement(By.xpath("//button[contains(@class, 'comment-button')]"));
         commentsContainer = new CommentsContainer(driver);
     }
 
     // Page Object
-
+    public String getClubName() {return nameField.getText();}
+    public void clickCreateCommentButton() {createCommentButton.click();}
     // commentContainer
     public CommentsContainer getCommentContainer() {
         return commentsContainer;
@@ -30,7 +39,7 @@ public class ClubDetailsPage extends TopPart {
     // Business Logic
 
     public ClubCommentModal openClubCommentModal() {
-        // TODO
+        clickCreateCommentButton();
         return new ClubCommentModal(driver);
     }
 
