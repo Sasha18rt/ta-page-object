@@ -1,6 +1,7 @@
 package com.softserve.edu.teachua.pages.top;
 
 import com.softserve.edu.teachua.data.Challengies;
+import com.softserve.edu.teachua.data.Cities;
 import com.softserve.edu.teachua.pages.challenge.ChallengeTeachPage;
 import com.softserve.edu.teachua.pages.menu.HomePage;
 import com.softserve.edu.teachua.pages.user.LoggedDropdown;
@@ -11,22 +12,28 @@ import com.softserve.edu.teachua.pages.menu.UkrainianServicePage;
 import com.softserve.edu.teachua.pages.user.GuestDropdown;
 import com.softserve.edu.teachua.pages.user.LoginModal;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.lang.reflect.Constructor;
+import java.time.Duration;
 
 public abstract class TopPart {
     public static final String TAG_ATTRIBUTE_VALUE = "value";
     //public static final String TAG_ATTRIBUTE_SRC = "src";
     public static final String TAG_ATTRIBUTE_HREF = "href";
+    public static final String TAG_ATTRIBUTE_CLASS = "class";
     //
     public static final String OPTION_NOT_FOUND_MESSAGE = "Option %s not found in %s";
     protected final String OPTION_NULL_MESSAGE = "Dropdown is null";
-    //protected final String PAGE_DO_NOT_EXIST = "Page do not exist.";
+    protected final String PAGE_DO_NOT_EXIST = "Page do not exist.";
     //
     protected final String LIST_CHALLENGE_CSSSELECTOR = "a[href*='/challenges']";
+    protected final String LIST_CITYES_CSSSELECTOR = "ul.ant-dropdown-menu li.ant-dropdown-menu-item span.ant-dropdown-menu-title-content";
 
     protected WebDriver driver;
     //
+    private WebElement cityDropdownLink;
     private WebElement homeLink;
     private WebElement clubLink;
     private WebElement challengeLink;
@@ -56,6 +63,7 @@ public abstract class TopPart {
         ukrainianServiceLink = driver.findElement(By.cssSelector("span.ant-menu-title-content > a[href*='/service']"));
         caretDropdownLink = driver.findElement(By.cssSelector("div.user-profile span.anticon.anticon-caret-down"));
         qubStudioLabel = driver.findElement(By.cssSelector("div.qubstudio"));
+        cityDropdownLink = driver.findElement(By.cssSelector("div.city span.anticon.anticon-caret-down"));
     }
 
     // Page Object
@@ -161,6 +169,10 @@ public abstract class TopPart {
         getCaretDropdownLink().click();
     }
 
+    public WebElement getCityDropdownLink(){return cityDropdownLink;}
+
+    public void clickCityDropdownLink() {getCityDropdownLink().click();}
+
     // dropdownComponent
     protected DropdownComponent getDropdownComponent() {
         if (dropdownComponent == null) {
@@ -171,10 +183,13 @@ public abstract class TopPart {
     }
 
     private DropdownComponent createDropdownComponent(By searchLocator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(searchLocator));
         dropdownComponent = new DropdownComponent(driver, searchLocator);
-        //dropdownComponent = new DropdownComponent(searchLocator);
+        System.out.println("Dropdown options: " + dropdownComponent.getListOptionsText());
         return getDropdownComponent();
     }
+
 
     private void clickDropdownComponentByPartialName(String optionName) {
         if (!getDropdownComponent().isExistDropdownOptionByPartialName(optionName)) {
@@ -272,6 +287,15 @@ public abstract class TopPart {
         clickQubStudioLabel();
         clickCaretDropdownLink();
     }
+    //cityDropdown
+
+    private void openCityDropdownComponent() {
+        clickCityDropdownLink();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(LIST_CITYES_CSSSELECTOR)));
+        createDropdownComponent(By.cssSelector(LIST_CITYES_CSSSELECTOR));
+    }
+
 
     // challengeLink
     private void openDropdownComponent() {
@@ -327,6 +351,16 @@ public abstract class TopPart {
 
     public <T> T gotoChallengePage(Challengies challengeName, Class<T> clazz) {
         return chooseChallenge(challengeName.getName(), clazz);
+    }
+
+    public ClubPage chooseCity(Cities city) {
+        openCityDropdownComponent();
+        System.out.println("Available cities: " + getDropdownComponent().getListOptionsText());
+        if (!getDropdownComponent().isExistDropdownOptionByPartialName(city.getCity())) {
+            throw new RuntimeException("City not found in dropdown: " + city.getCity());
+        }
+        clickDropdownComponentByPartialName(city.getCity());
+        return new ClubPage(driver);
     }
 
     public NewsPage gotoNewsPage() {

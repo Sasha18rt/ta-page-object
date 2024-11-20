@@ -33,13 +33,72 @@ public class CommentsContainer {
 
     // Page Object
 
+    public List<CommentComponent> getCommentComponents() {
+        return commentComponents;
+    }
+    public int getCommentComponentsCount() {return getCommentComponents().size();}
+
+    public List<String> getClubCommentAuthors(){
+        List<String> clubCommentAuthors = new ArrayList<>();
+        for (CommentComponent current : commentComponents) {
+            clubCommentAuthors.add(current.getAuthorLabelText());
+        }
+        return clubCommentAuthors;
+    }
+
+    public List<String> getClubCommentComments(){
+        List<String> clubCommentComments = new ArrayList<>();
+        for (CommentComponent current : commentComponents) {
+            clubCommentComments.add(current.getCommentLabelText());
+
+        }
+        return clubCommentComments;
+    }
+
+    public WebElement getShowMoreButton() {
+        return showMoreButton;
+    }
     // showMoreButton
 
     public void clickShowMoreButton() {
-        // TODO
+        getShowMoreButton().click();
     }
 
     // Functional
+
+    public CommentComponent getCommentByPartialAuthor(String partialAuthor) {
+        for (CommentComponent current : getCommentComponents()) {
+            if (current.getAuthorLabelText().toLowerCase().contains(partialAuthor.toLowerCase())) {
+                return current;
+            }
+        }
+        throw new RuntimeException("Comment with author containing '" + partialAuthor + "' not found.");
+    }
+    public CommentComponent getClubComponentByPartialDate(String partialDate) {
+        CommentComponent result = null;
+        for (CommentComponent current : getCommentComponents()) {
+            if (current.getDatetimeLabelText().toLowerCase().contains(partialDate.toLowerCase())) {
+                result = current;
+                break;
+            }
+        }
+        if (result == null) {
+            throw new RuntimeException("Comment partialDate: " + partialDate + " not Found.");
+        }
+        return result;
+    }
+
+    public boolean isExistClubComponentByPartialAuthor(String partialAuthor) {
+        boolean isFound = false;
+        for (String current : getClubCommentAuthors()) {
+            if (current.toLowerCase().contains(partialAuthor.toLowerCase())) {
+                isFound = true;
+                break;
+            }
+        }
+        return isFound;
+    }
+
 
     // Business Logic
 

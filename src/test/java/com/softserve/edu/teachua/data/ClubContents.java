@@ -4,30 +4,37 @@ public enum ClubContents {
     DEFAULT_CLUB(Cities.HARKIV_CITY, "Новий Кадр", "Новий кадр — це справжній творчий  майданчик"),
     IT_EDUCATION_CLUB(Cities.KYIV_CITY, "IT освіта: курси \"ГРАНД\"", "Ми вивчаємо все, що можна уявити в ІТ"),
     NEW_CADRE_CLUB(Cities.HARKIV_CITY, "Новий Кадр", "Новий кадр — це справжній творчий  майданчик"),
-    VECTOR_CLUB(Cities.HARKIV_CITY, "Центр позашкільної освіти \"ВЕКТОР\" Харківської міської ради", "Центр пропонує заняття у гуртках");
+    VECTOR_CLUB(Cities.HARKIV_CITY, "Центр позашкільної освіти \"ВЕКТОР\" Харківської міської ради", "Центр пропонує заняття у гуртках"),
+    GREEN_COUNTRY_CLUB(Cities.HARKIV_CITY, "Грін Кантрі", "Мережа шкіл англійської мови для дітей, навчання за концепцією ''Перевернутий Урок''");
+
+    private String title;
+    private String description;
+    private Cities city;
 
     private ClubContents(Cities city, String title, String descriptions) {
-        // TODO
+    this.city = city;
+    this.title = title;
+    this.description = descriptions;
     }
 
     public Cities getCity() {
-        // TODO
-        return Cities.HARKIV_CITY;
+        //
+        return city;
     }
 
     public String getTitle() {
-        // TODO
-        return "Новий Кадр";
+        //
+        return title;
     }
 
     public String getDescriptions() {
-        // TODO
-        return "";
+        //
+        return description;
     }
 
     @Override
     public String toString() {
-        // TODO
-        return "";
+
+        return city + " " + title + " " + description;
     }
 }

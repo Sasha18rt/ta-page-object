@@ -36,10 +36,16 @@ public class AdvancedClubPage extends ClubPage {
     // Functional
 
     // Business Logic
-
     @Override
-    public AdvancedClubPage nextClubPagination() {
-        // TODO
+    public AdvancedClubPage previousClubPagination() {
+        clickPreviousClubPagination();
         return new AdvancedClubPage(driver);
     }
+    @Override
+    public AdvancedClubPage nextClubPagination() {
+        clickNextClubPagination();
+        return new AdvancedClubPage(driver);
+    }
+
+
 }

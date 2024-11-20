@@ -1,6 +1,6 @@
 package com.softserve.edu.teachua.pages.challenge;
 
-import com.softserve.edu.teachua.pages.top.TopSearchPart;
+import com.softserve.edu.teachua.data.UrlContents;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -43,11 +43,12 @@ public class ChallengeTeachPage extends ChallengePage {
         return new YoutubeFrame(driver);
     }
 
-    public YoutubeFrame gotoYoutubeFrameBySrc(String src) {
-        WebElement targetIframe = driver.findElement(By.xpath("//iframe[contains(@src, '" + src + "')]"));
+    public YoutubeFrame gotoYoutubeFrameBySrc(UrlContents urlContents) {
+        WebElement targetIframe = driver.findElement(By.xpath("//iframe[contains(@src, '" + urlContents.getSearchVideo() + "')]"));
 
         driver.switchTo().frame(targetIframe);
         return new YoutubeFrame(driver);
     }
+
 
 }

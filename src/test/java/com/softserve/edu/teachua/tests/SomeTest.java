@@ -23,7 +23,7 @@ public class SomeTest extends TestRunner {
                 .gotoTeachChallengePage()
                 .gotoYoutubeFrame();
         //
-        // TODO Check Youtube Frame
+        Assertions.assertNotNull(youtubeFrame);
     }
 
     private static Stream<Arguments> challengeProvider() {
@@ -45,7 +45,7 @@ public class SomeTest extends TestRunner {
                 .gotoChallengePage(challengeName, ChallengeTeachPage.class)
                 .gotoYoutubeFrame();
         //
-        // TODO Check Youtube Frame
+        Assertions.assertFalse(youtubeFrame.getYoutubeLinkText().isEmpty());
     }
 
 
@@ -62,7 +62,7 @@ public class SomeTest extends TestRunner {
     public void checkChallenge(Challengies challengeName, UrlContents urlContents) {
         YoutubeFrame youtubeFrame = loadApplication()
                 .gotoChallengePage(challengeName, ChallengeTeachPage.class)
-                .gotoYoutubeFrameBySrc(urlContents.getSearchVideo())
+                .gotoYoutubeFrameBySrc(urlContents)
                 .playVideoContent();
 
         Assertions.assertTrue(youtubeFrame.getYoutubeLinkText().contains(urlContents.getSearchVideo()));
@@ -84,7 +84,7 @@ public class SomeTest extends TestRunner {
                 .getClubContainer()
                 .getFirstClubComponent();
         //
-        // TODO Check first club address
+        Assertions.assertTrue(ClubComponent.getAddressLabelText().contains(city.getCity()));
     }
 
 
@@ -94,7 +94,11 @@ public class SomeTest extends TestRunner {
                 Arguments.of(ClubContents.VECTOR_CLUB)
         );
     }
-
+    private static Stream<Arguments> advancedClubProvider() {
+        return Stream.of(
+                Arguments.of(ClubContents.GREEN_COUNTRY_CLUB)
+        );
+    }
     @ParameterizedTest(name = "{index} => clubContents={0}")
     @MethodSource("clubProvider")
     public void checkClubExist(ClubContents clubContents) {
@@ -104,18 +108,18 @@ public class SomeTest extends TestRunner {
                 .getClubContainer()
                 .getClubComponentByPartialTitle(clubContents.getTitle());
         //
-        // TODO Check club titles and descriptions
+        Assertions.assertTrue(ClubComponent.getTitleLinkText().contains(clubContents.getTitle()));
     }
 
     @ParameterizedTest(name = "{index} => clubContents={0}")
-    @MethodSource("clubProvider")
+    @MethodSource("advancedClubProvider")
     public void checkAdvancedSearch(ClubContents clubContents) {
         AdvancedClubPage advancedClubPage = loadApplication()
                 .gotoClubPage()
                 .chooseCity(clubContents.getCity())
                 .gotoAdvancedClubPage();
         //
-        // TODO Use pagination to search club
+        Assertions.assertTrue(advancedClubPage.isExistClubByPartialName(clubContents.getTitle()));
     }
 
     private static Stream<Arguments> commentProvider() {
@@ -134,6 +138,6 @@ public class SomeTest extends TestRunner {
                 .getClubComponentByPartialTitle(clubContents.getTitle())
                 .openClubDetailsPage();
         //
-        // TODO Check comment exist
+        Assertions.assertTrue(clubDetailsPage.getCommentContainer().getClubCommentAuthors().contains(commentContents.getAuthor()));
     }
 }

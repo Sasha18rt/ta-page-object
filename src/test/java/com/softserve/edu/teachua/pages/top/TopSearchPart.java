@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 public abstract class TopSearchPart extends TopPart {
 
     private WebElement searchInput;
+    private WebElement advancedSearchButton;
 
     public TopSearchPart(WebDriver driver) {
         super(driver);
@@ -20,6 +21,7 @@ public abstract class TopSearchPart extends TopPart {
     private void initElements() {
         // init elements
         searchInput = driver.findElement(By.cssSelector("input.ant-select-selection-search-input"));
+        advancedSearchButton = driver.findElement(By.cssSelector("span.advanced-icon.anticon-control"));
     }
 
     // Page Object
@@ -45,6 +47,9 @@ public abstract class TopSearchPart extends TopPart {
         getSearchInput().sendKeys(text + Keys.ARROW_RIGHT);
     }
 
+
+    public void clickAdvancedSearchButton() {advancedSearchButton.click();}
+
     // Functional
 
     // searchInput
@@ -67,7 +72,7 @@ public abstract class TopSearchPart extends TopPart {
     }
 
     public AdvancedClubPage gotoAdvancedClubPage() {
-        // TODO
+        clickAdvancedSearchButton();
         return new AdvancedClubPage(driver);
     }
 

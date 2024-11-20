@@ -30,29 +30,39 @@ public class ClubPage extends TopSearchPart {
     }
 
     // Functional
+    public boolean isExistClubByPartialName(String partialName) {
+        boolean isExist = getClubContainer().isExistClubComponentByPartialTitle(partialName);
+        return isExist;
 
-    // Business Logic
 
-    public ClubPage chooseCity(Cities city) {
-        // TODO
-        return new ClubPage(driver);
     }
-
-    public ClubPage previousClubPagination() {
+    public void clickPreviousClubPagination(){
         if (!getClubContainer().isEnablePreviousPageLink()) {
-            // throw new RuntimeException("The previous page is not available");
-            return this;
+            throw new RuntimeException("The previous page is not available");
         }
         getClubContainer().clickPreviousPageLink();
+
+    }
+
+    public void clickNextClubPagination(){
+        if (!getClubContainer().isEnableNextPageLink()) {
+            throw new RuntimeException("The next page is not available");
+
+        }
+        getClubContainer().clickNextPageLink();
+    }
+    // Business Logic
+
+
+
+
+    public ClubPage previousClubPagination() {
+        clickPreviousClubPagination();
         return new ClubPage(driver);
     }
 
     public ClubPage nextClubPagination() {
-        if (!getClubContainer().isEnableNextPageLink()) {
-            // throw new RuntimeException("The next page is not available");
-            return this;
-        }
-        getClubContainer().clickNextPageLink();
+        clickNextClubPagination();
         return new ClubPage(driver);
     }
 

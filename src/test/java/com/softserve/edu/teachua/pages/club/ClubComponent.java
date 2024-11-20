@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClubComponent {
@@ -54,7 +55,11 @@ public class ClubComponent {
 
     public List<String> getCategoriesLabelText() {
         // TODO
-        return null;
+        List<String> categoriesLabels = new ArrayList<String>();
+        for (WebElement current : getCategoriesLabel()) {
+            categoriesLabels.add(current.getText());
+        };
+        return categoriesLabels;
     }
 
     // descriptionLabel;
@@ -93,12 +98,12 @@ public class ClubComponent {
     // Business Logic
 
     public ClubInfoModal openClubInfoModal() {
-        // TODO
+        clickTitleLink();
         return new ClubInfoModal(driver);
     }
 
     public ClubDetailsPage openClubDetailsPage() {
-        // TODO
+        clickDetailsButton();
         return new ClubDetailsPage(driver);
     }
 }

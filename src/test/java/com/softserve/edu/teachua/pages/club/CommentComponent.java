@@ -20,10 +20,40 @@ public class CommentComponent {
     }
 
     private void initElements() {
-        // TODO init elements
+        authorLabel = clubCard.findElement(By.cssSelector("div.author-content > span.name"));
+        datetimeLabel = clubCard.findElement(By.cssSelector("div.author-content > span.datetime"));
+        commentLabel = clubCard.findElement(By.cssSelector("div.ant-comment-content-detail > p"));
     }
 
+
     // Page Object
+    // authorLabel
+    public WebElement getAuthorLabel() {
+        return authorLabel;
+    }
+
+    public String getAuthorLabelText() {
+        return getAuthorLabel().getText();
+    }
+
+    // datetimeLabel
+    public WebElement getDatetimeLabel() {
+        return datetimeLabel;
+    }
+
+    public String getDatetimeLabelText() {
+        return getDatetimeLabel().getText();
+    }
+
+    // commentLabel
+    public WebElement getCommentLabel() {
+        return commentLabel;
+    }
+
+    public String getCommentLabelText() {
+        return getCommentLabel().getText();
+    }
+
 
     // Functional
 

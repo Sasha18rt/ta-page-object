@@ -1,5 +1,6 @@
 package com.softserve.edu.teachua.pages.club;
 
+import com.softserve.edu.teachua.pages.top.TopPart;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,6 +12,8 @@ public class ClubsContainer {
 
     public final String CLUBS_NOT_FOUND = "There is no club that matches the search criteria.";
     private final String CLUBS_COMPONENT_CSSSELECTOR = "div.ant-card.ant-card-bordered";
+    private static final String PAGINATION_NUMBERS = "ul.ant-pagination li.ant-pagination-item.ant-pagination-item-%d";
+
     //
     protected WebDriver driver;
     //
@@ -24,6 +27,13 @@ public class ClubsContainer {
     }
 
     private void initElements() {
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         // init elements
         clubComponents = new ArrayList<>();
         for (WebElement current : driver.findElements(By.cssSelector(CLUBS_COMPONENT_CSSSELECTOR))) {
@@ -53,8 +63,17 @@ public class ClubsContainer {
     }
 
     public boolean isEnablePreviousPageLink() {
-        // TODO
-        return true;
+
+        return !getPreviousPageLink()
+                .getAttribute(TopPart.TAG_ATTRIBUTE_VALUE)
+                .contains("pagination-disabled");
+    }
+
+    public boolean isEnableNextPageLink() {
+
+        return !getNextPageLink()
+                .getAttribute(TopPart.TAG_ATTRIBUTE_VALUE)
+                .contains("pagination-disabled");
     }
 
     // nextPageLink
@@ -66,10 +85,7 @@ public class ClubsContainer {
         getNextPageLink().click();
     }
 
-    public boolean isEnableNextPageLink() {
-        // TODO
-        return true;
-    }
+
 
     // Functional
 
@@ -140,7 +156,13 @@ public class ClubsContainer {
     }
 
     public void clickPageLinkByNumber(int numberPage) {
-       // TODO
+       WebElement pagelink = null;
+       List<WebElement>  paginationNumbers = driver.findElements
+               (By.cssSelector(String.format(PAGINATION_NUMBERS, numberPage)));
+       if (paginationNumbers.size() > 0) {
+           paginationNumbers.get(0).click();
+       }
+       throw new RuntimeException("Pagination number: " + numberPage + " not Found.");
     }
 
     // Business Logic

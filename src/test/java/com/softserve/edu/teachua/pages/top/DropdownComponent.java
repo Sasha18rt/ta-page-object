@@ -1,18 +1,19 @@
 package com.softserve.edu.teachua.pages.top;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DropdownComponent {
 
     protected final String OPTIONNAME_NOT_FOUND = "OptionName not Found.";
-    //
     protected WebDriver driver;
-    //
     private List<WebElement> listOptions;
 
     public DropdownComponent(WebDriver driver, By searchLocator) {
@@ -21,19 +22,19 @@ public class DropdownComponent {
     }
 
     private void initElements(By searchLocator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(searchLocator));
         listOptions = driver.findElements(searchLocator);
+        if (listOptions.isEmpty()) {
+            throw new RuntimeException("Dropdown is empty or elements are not loaded. Locator: " + searchLocator);
+        }
+        System.out.println("Dropdown options found: " + listOptions.size());
     }
 
-    // Page Object
-
-    // listOptions
     public List<WebElement> getListOptions() {
         return listOptions;
     }
 
-    // Functional
-
-    // listOptions
     public WebElement getDropdownOptionByPartialName(String optionName) {
         WebElement result = null;
         for (WebElement current : getListOptions()) {
@@ -43,8 +44,9 @@ public class DropdownComponent {
             }
         }
         if (result == null) {
-            // TODO Develop Custom Exception 
-            throw new RuntimeException(String.format(TopPart.OPTION_NOT_FOUND_MESSAGE, optionName, getListOptionsText()));
+            throw new RuntimeException(
+                    String.format("Option '%s' not found in dropdown. Available options: %s", optionName, getListOptionsText())
+            );
         }
         return result;
     }
@@ -58,20 +60,18 @@ public class DropdownComponent {
     }
 
     public boolean isExistDropdownOptionByPartialName(String optionName) {
-        boolean isFound = false;
         for (String current : getListOptionsText()) {
             if (current.toLowerCase().contains(optionName.toLowerCase())) {
-                isFound = true;
-                break;
+                return true;
             }
         }
-        return isFound;
+        return false;
     }
 
     public void clickDropdownOptionByPartialName(String optionName) {
-        getDropdownOptionByPartialName(optionName).click();
+        WebElement option = getDropdownOptionByPartialName(optionName);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(option));
+        option.click();
     }
-
-    // Business Logic
-
 }
