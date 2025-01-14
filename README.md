@@ -1,29 +1,106 @@
+# TeachUA Test Automation Project
 
-## Pre-Requirements
-1. Add the implementation of the ClubDetailsPage, ClubInfoModal, LoggedDropdown classes to the project.
+This repository contains automated tests for the **TeachUA platform**, developed as part of a test automation course. The project uses Java, Selenium WebDriver, JUnit 5, and the Page Object Model (POM) design pattern.
 
-## Task 1
+## Project Features
 
-1. Implement the ChallengeTeachPage class that represents the "Навачайся" challenge page.
-2. Implement the YoutubeFrame class, which represents the Youtube frame.
-3. Update the test method checkChallenge(Challengies challengeName) from the SomeTest class. Check the URL that the Youtube element points to.
+- **Parameterized Tests**: Test multiple data sets using JUnit's `@ParameterizedTest` and `@MethodSource`.
+- **Page Object Model**: Structured code for better reusability and maintainability.
+- **Modular Test Data**: Includes predefined data for cities, clubs, challenges, and comments.
+- **Comprehensive Test Coverage**:
+  - **Challenge Page Tests**: Verify YouTube video frames and challenge-specific functionality.
+  - **Club Page Tests**: Validate advanced search, city filters, and club comments.
 
-## Task 2
+---
 
-1. Implement enum Cities that provides data about cities.
-2. Implement enum ClubContents that provides data about clubs.
-3. Update the openClubInfoModal() and openClubDetailsPage() methods in the ClubComponent class.
-4. Update the methods isEnablePreviousPageLink(), isEnableNextPageLink() and clickPageLinkByNumber(int numberPage) in the ClubsContainer class.
-5. Update the chooseCity(Cities city) method in the ClubPage class.
-6. Update the nextClubPagination() method in the AdvancedClubPage class.
-7. Update the test method checkClubExist() from the SomeTest class. Check the title and description (part).
-8. Update the test method checkAdvancedSearch() from the SomeTest class. Check the presence of the club by going through the pagination.
+## Test Scenarios
 
-## Task 3 (additional, optional)
+### 1. Challenge Page
+- Verify the YouTube frame is displayed for specific challenges.
+- Check video content for predefined URLs.
+  
+### 2. Club Page
+- Verify clubs are filtered by city.
+- Check club details and advanced search functionality.
+- Validate comments for specific clubs.
 
-1. Implement the CommentComponent class, which represents the information of one comment on the ClubDetailsPage page.
-2. Implement the CommentsContainer class, which represents information about a group of comments on the ClubDetailsPage page.
-3. Update the test method checkCommentExist() from the SomeTest class.
+### 3. Cities and Comments
+- Ensure club addresses match the selected city.
+- Verify comments are correctly displayed on club detail pages.
 
-> Record a short video (3-5 minutes) demonstrating your code functionality and test execution, then post it on your YouTube channel.
-The report should include a link to GitHub and a link to the video.
+---
+
+## File Structure
+
+```
+src/
+└── test/
+    └── java/
+        └── com/
+            └── softserve/
+                ├── data/          # Predefined test data
+                │   ├── Cities.java
+                │   ├── Challengies.java
+                │   ├── ClubContents.java
+                │   └── CommentContents.java
+                ├── pages/         # Page Object classes
+                │   ├── challenge/
+                │   │   ├── ChallengePage.java
+                │   │   ├── ChallengeTeachPage.java
+                │   │   └── YoutubeFrame.java
+                │   └── club/
+                │       ├── AdvancedClubPage.java
+                │       ├── ClubComponent.java
+                │       ├── ClubDetailsPage.java
+                │       └── ClubPage.java
+                └── tests/         # Test classes
+                    ├── SomeTest.java
+                    └── TestRunner.java
+```
+
+---
+
+## How to Run Tests
+
+1. **Clone the Repository**:
+   ```bash
+   git clone <repository-url>
+   cd <repository-folder>
+   ```
+
+2. **Set up Dependencies**:
+   Ensure you have Maven installed, then execute:
+   ```bash
+   mvn clean install
+   ```
+
+3. **Run Tests**:
+   To execute all tests:
+   ```bash
+   mvn test
+   ```
+
+---
+
+## Dependencies
+
+- **Java**: Version 17 or higher.
+- **Maven**: For managing dependencies and running tests.
+- **Libraries**:
+  - Selenium WebDriver
+  - JUnit 5
+  - WebDriverManager
+
+---
+
+## Key Highlights
+
+- **Reusable Components**: The Page Object Model simplifies test maintenance.
+- **Data-Driven Testing**: Test data is managed in a modular format for flexibility.
+- **Robust Assertions**: Uses JUnit assertions to verify test results.
+
+---
+
+## Acknowledgments
+
+This project was created as part of the **SoftServe Test Automation Course**. Special thanks to the mentors and instructors for their guidance.
